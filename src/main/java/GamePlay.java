@@ -184,7 +184,7 @@ public class GamePlay implements GamePlayInterface {
         for (Character opponent : Opponents) {
             //determine order of attack and give experience points for attacking first
             Character[] orderOfAttack = new Character[2];
-            if (player.speed > opponent.speed) {
+            if (player.speed >= opponent.speed) {
                 orderOfAttack[0] = player;
                 orderOfAttack[1] = opponent;
                 player.experience += Math.ceil(player.speed - opponent.speed);
