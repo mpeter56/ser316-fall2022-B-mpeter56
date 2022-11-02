@@ -122,36 +122,12 @@ public class GamePlay implements GamePlayInterface {
             character.level++;
             character.pointsPerLevel *= 2; // need more points to level up next time
             character.health = 100; // level up resets health
-
-            if(character.getClass().getName() == new Barbarian().getClass().getName()){
-                character.damage += 10;
-                character.speed=character.speed+0.25;
-                character.protection +=2;
-            }else if(character.getClass().getName() == new Bard().getClass().getName()){
-                character.damage += character.damage/2;
-                character.speed += 0.5;
-                character.protection += character.protection/2;
-            }else if(character.getClass().getName() == new Druid().getClass().getName()){
-                character.damage += 10;
-                character.speed += 0.25;
-                character.protection = character.protection += 2;
-            }else if(character.getClass().getName() == new Ranger().getClass().getName()){
-                character.damage += character.damage%10;
-                character.speed += 0.5;
-                character.protection += character.protection%5;
-            }else if(character.getClass().getName() == new Rogue().getClass().getName()){
-                character.damage += character.damage/3;
-                character.speed += 1.25;
-                character.protection += 3;
-            }else if(character.getClass().getName() == new Wizard().getClass().getName()){
-                character.damage += 5;
-                character.speed += 1;
-                character.protection += 1;
-            }else{
-                character.damage++;
-                character.speed += 0.25;
-                character.protection++;
-            }
+            
+            // increase character stats by class levelUp amounts
+            character.damage += character.levelUpDamage;
+            character.speed += character.levelUpSpeed;
+            character.protection += character.levelUpProtection;
+            
             levelUp(character);
         }
         boolean test;
