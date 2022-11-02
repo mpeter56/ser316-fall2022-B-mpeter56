@@ -50,8 +50,12 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean addOpponent(Character opponent) {
-        if (this.Opponents.add(opponent)) return true;
-        else return false;
+        if (this.Opponents.add(opponent)) {
+        	return true;
+        }
+        else {
+        	return false;
+        }
     }
 
     /**
@@ -62,10 +66,12 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean removeOpponent(Character opponent) {
-        if (this.Opponents.remove(opponent))
+        if (this.Opponents.remove(opponent)) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
     /**
@@ -116,8 +122,9 @@ public class GamePlay implements GamePlayInterface {
     @Override
     public boolean levelUp(Character character) {
         if(character.experience >= character.pointsPerLevel) {
-            if(character.experience == character.pointsPerLevel)
+            if(character.experience == character.pointsPerLevel) {
                 character.experience += 5;
+            }
 
             character.level++;
             character.pointsPerLevel *= 2; // need more points to level up next time
