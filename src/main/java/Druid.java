@@ -5,6 +5,9 @@ public class Druid extends Character {
         damage = 7;
         speed = 3.0;
         pointsPerLevel = 15;
+        levelUpDamage = 10;
+        levelUpSpeed = 0.25;
+        levelUpProtection = 2;
     }
 
 }
