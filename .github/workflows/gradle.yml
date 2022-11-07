@@ -33,4 +33,4 @@ jobs:
       with:
         arguments: build
     - name: Make gradlew executable
-      run: chmod +x ./gradlew
+      run: chmod +x ./home/runner/work/ser316-fall2022-B-mpeter56/ser316-fall2022-B-mpeter56/gradlew
