@@ -1,39 +1,21 @@
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runners.Parameterized;
 
-@RunWith(Parameterized.class)
-public class BlackBoxGiven {
+public class TDD {
 
-    private Class<GamePlay> classUnderTest;
 
-    @SuppressWarnings("unchecked")
-    public BlackBoxGiven(Object classUnderTest) {
-        this.classUnderTest = (Class<GamePlay>) classUnderTest;
-    }
-
-    // Define all classes to be tested
-    @Parameterized.Parameters
-    public static Collection<Object[]> cartClassUnderTest() {
-        Object[][] classes = {
-            {GamePlay1.class},
-            {GamePlay2.class},
-            {GamePlay3.class},
-            {GamePlay4.class},
-            {GamePlay5.class}
-        };
-        return Arrays.asList(classes);
-    }
 
     private GamePlay createGame() throws Exception {
-        Constructor<GamePlay> constructor = classUnderTest.getConstructor();
-        return constructor.newInstance();
+        GamePlay constructor = new GamePlay();
+        return constructor;
     }
 
     GamePlay game;
@@ -684,9 +666,10 @@ public class BlackBoxGiven {
         
         ro.damage = 11;
         ro.health= 100;
-        wiz.health = 10;
         wiz.experience=0;
         wiz.level=1;
+        wiz.protection = 1;
+        wiz.health = 10;
         game.attack(ro, wiz);
         assertEquals(100, ro.health);
         assertEquals(0, wiz.health);
@@ -837,46 +820,42 @@ public class BlackBoxGiven {
         Rogue ro = new Rogue();
         
         
-        ro.damage = 50;
+        ro.damage = 2;
         ro.health = 100;
-        wiz.health = 49;
+        wiz.health = 1;
         game.attack(ro, wiz);
         assertEquals(1, wiz.level);
         
-        ro.damage = 50;
+        ro.damage = 11;
         ro.health = 100;
-        bar.health = 40;
+        bar.health = 1;
         game.attack(ro, bar);
         assertEquals(1, bar.level);
         
-        ro.damage = 50;
+        ro.damage = 4;
         ro.health = 100;
-        bard.health = 47;
+        bard.health = 1;
         game.attack(ro, bard);
         assertEquals(1, bard.level);
         
-        ro.damage = 50;
+        ro.damage = 5;
         ro.health = 100;
-        dru.health = 46;
+        dru.health = 1;
         game.attack(ro, dru);
         assertEquals(1, dru.level);
         
-        ro.damage = 50;
+        ro.damage = 9;
         ro.health = 100;
-        ran.health = 42;
+        ran.health = 1;
         game.attack(ro,ran);
         assertEquals(1, ran.level);
         
-        wiz.damage = 50;
+        wiz.damage = 7;
         wiz.health= 100;
-        ro.health = 44;
+        ro.health = 1;
         ro.level = 1;
         ro.experience = 0;
         game.attack(wiz, ro);
         assertEquals(1, ro.level);
     }
-    
-    
-    
-   
 }
