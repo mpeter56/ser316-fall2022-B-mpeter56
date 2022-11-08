@@ -5,12 +5,12 @@ public class GamePlay implements GamePlayInterface {
     public Character player;
     public List<Character> opponents;
     // SER316 TASK 2 SPOTBUGS FIX
-    public final static String BARBARIAN_NAME = "Barbarian";
-    public final static String BARD_NAME = "Bard";
-    public final static String DRUID_NAME = "Druid";
-    public final static String RANGER_NAME = "Ranger";
-    public final static String ROGUE_NAME = "Rogue";
-    public final static String WIZARD_NAME = "Wizard";
+    public static final String BARBARIAN_NAME = "Barbarian";
+    public static final String BARD_NAME = "Bard";
+    public static final String DRUID_NAME = "Druid";
+    public static final String RANGER_NAME = "Ranger";
+    public static final String ROGUE_NAME = "Rogue";
+    public static final String WIZARD_NAME = "Wizard";
 
     /**
      * Default constructor for Game Play.

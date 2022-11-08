@@ -1,11 +1,11 @@
 public class Character {
-    int health=100;
-    int level=1;
-    int experience=0;
-    int protection=0;
-    int damage=0;
-    double speed=0.0;
-    int pointsPerLevel=100;
+    int health = 100;
+    int level = 1;
+    int experience = 0;
+    int protection = 0;
+    int damage = 0;
+    double speed = 0.0;
+    int pointsPerLevel = 100;
     int levelUpDamage = 0;
     double levelUpSpeed = 0;
     int levelUpProtection = 0;

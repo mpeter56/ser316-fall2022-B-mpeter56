@@ -5,7 +5,7 @@ public class Rogue extends Character {
         damage = 5;
         speed = 3.5;
         pointsPerLevel = 20;
-        levelUpDamage = damage/3;
+        levelUpDamage = damage / 3;
         levelUpSpeed = 1.25;
         levelUpProtection = 3;
     }

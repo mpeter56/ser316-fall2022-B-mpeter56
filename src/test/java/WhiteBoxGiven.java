@@ -108,7 +108,7 @@ public class WhiteBoxGiven {
 
 
         assertEquals(100, cha.health);
-        assertEquals(106, bar.health);
+        assertEquals(107, bar.health);
     }
     
     //test that opponents are removed
