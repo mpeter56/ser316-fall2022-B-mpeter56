@@ -125,7 +125,7 @@ public class WhiteBoxGiven {
         
         game1.play();
 
-        assertEquals(0, game1.Opponents.size());
+        assertEquals(0, game1.opponents.size());
     }
     
     

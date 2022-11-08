@@ -1,6 +1,6 @@
 plugins {
-//     id "com.github.spotbugs" version "5.0.12"
-//     id "checkstyle"
+     id "com.github.spotbugs" version "5.0.12"
+     id "checkstyle"
 	id 'jacoco'
 }
 
@@ -58,14 +58,14 @@ checkstyle {
 // Configure SpotBugs
 ///////////////////////////////////////////////////////////////////////
 // To generate an HTML report instead of XML
-// spotbugsMain {
-//     reports {
-//         xml.enabled = false
-//         html.enabled = true
-//     }
-// }
-// spotbugs {
-//     ignoreFailures = true
-//     showProgress = true
-//     effort = 'max'
-// }
+spotbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+spotbugs {
+    ignoreFailures = true
+    showProgress = true
+    effort = 'max'
+}
