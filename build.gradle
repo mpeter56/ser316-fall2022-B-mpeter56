@@ -1,6 +1,7 @@
 plugins {
     id "com.github.spotbugs" version "5.0.12"
     id "checkstyle"
+	id 'jacoco'
 }
 
 apply plugin: 'application'
@@ -18,6 +19,11 @@ repositories {
 dependencies {
     implementation "junit:junit:4.12"
     implementation files('cls/')
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 
 ///////////////////////////////////////////////////////////////////////

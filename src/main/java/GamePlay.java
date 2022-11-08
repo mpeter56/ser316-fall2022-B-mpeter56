@@ -84,8 +84,21 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public int dealDamage(Character character) {
-    System.out.println("Not Implemented here, your job in assign 3");
-    return 1;
+    	int damage;
+    	
+    	if(character.health > 0) {
+    		if(character.health < 10) {
+    			damage = character.damage *2; // If the health of a character is less than 10 they deal double damage.
+    		}else {
+    			damage = character.damage;
+    		}
+    	}else {
+    		damage = 0; // Experience is only gained if the character still has more than 0 health, damage is also only dealt when health > 0.
+    	}
+    	
+    character.experience += damage;
+    
+    return damage;
     }
 
     /**
@@ -94,8 +107,8 @@ public class GamePlay implements GamePlayInterface {
      * If their protection is higher than the blowDamage then the character will heal by half of that difference they will also gain
      * the full difference as experience
      * 
-     * If their protection is lower or equal than the blowDamage then the character will take half the difference as experience and the health will be reduced
-     * by the full difference.
+     * If their protection is lower or equal than the blowDamage then the character will take half the difference as experience and the health 
+     * will be reduced by the full difference.
      * 
      * 
      * If the difference by half is 0.5 we floor it. 
@@ -108,8 +121,31 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public int takeDamage(Character character, int blowDamage) {
-        System.out.println("Not Implemented here your job in assign 3");
-        return 1;
+        int finalDamage;
+        int finalExperience;
+        double damage;
+        double experience;
+        if(character.protection > blowDamage) {
+        	damage = (character.protection - blowDamage)/2;
+        	finalDamage = -1 * (int) Math.floor(damage); // If the difference by half is 0.5 we floor it. 
+        	
+        	finalExperience = (character.protection - blowDamage);
+        	
+        }else {
+        	finalDamage = (blowDamage - character.protection);
+        	
+        	experience = (blowDamage - character.protection)/2;
+        	finalExperience = (int) Math.floor(experience); // If the difference by half is 0.5 we floor it. 
+        }
+        character.health -= finalDamage;
+        character.experience += finalExperience;
+        
+        //Health cannot go below 0
+        if(character.health < 0) {
+        	character.health = 0; 
+        }
+        
+        return finalDamage;
     }
 
     /**
@@ -166,7 +202,32 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public void attack(Character character, Character opponent) {
-        System.out.println("Not Implemented here your job in assign 3");
+    	int damage;
+    	
+    	if(character.health > 0 && opponent.health > 0) {
+    		
+    		//character attacks
+    		damage = dealDamage(character);
+    		takeDamage(opponent, damage);
+    		if(opponent.health > 0) {
+    			levelUp(opponent);
+    			levelUp(character);
+    		}else {
+    			levelUp(character);
+    		}
+    		
+    		//opponent attacks
+    		if(character.health > 0 && opponent.health > 0) {
+	    		damage = dealDamage(opponent);
+	    		takeDamage(character, damage);
+	    		if(character.health > 0) {
+	    			levelUp(character);
+	    			levelUp(opponent);
+	    		}else {
+	    			levelUp(opponent);
+	    		}
+    		}
+    	}
     }
 
     /**
@@ -191,13 +252,14 @@ public class GamePlay implements GamePlayInterface {
         for (Character opponent : Opponents) {
             //determine order of attack and give experience points for attacking first
             Character[] orderOfAttack = new Character[2];
-            if (player.speed >= opponent.speed) {
+            //changed > to >= "If equal the player attacks first."
+            if (player.speed >= opponent.speed) {  
                 orderOfAttack[0] = player;
                 orderOfAttack[1] = opponent;
                 player.experience += Math.ceil(player.speed - opponent.speed);
-                } else {
-                orderOfAttack[1] = opponent;
-                orderOfAttack[0] = player;
+            } else {
+                orderOfAttack[0] = opponent; //changed [1] to [0]
+                orderOfAttack[1] = player;  // changed [0] to [1] if an opponents speed is higher it should go first
                 opponent.experience += Math.ceil(opponent.speed - player.speed);
              }
 
