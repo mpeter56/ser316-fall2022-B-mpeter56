@@ -4,13 +4,6 @@ public class GamePlay implements GamePlayInterface {
 
     public Character player;
     public List<Character> opponents;
-    // SER316 TASK 2 SPOTBUGS FIX
-    public static final String BARBARIAN_NAME = "Barbarian";
-    public static final String BARD_NAME = "Bard";
-    public static final String DRUID_NAME = "Druid";
-    public static final String RANGER_NAME = "Ranger";
-    public static final String ROGUE_NAME = "Rogue";
-    public static final String WIZARD_NAME = "Wizard";
 
     /**
      * Default constructor for Game Play.
@@ -29,11 +22,11 @@ public class GamePlay implements GamePlayInterface {
         this.player = character;
         this.opponents = new LinkedList<>();
         addOpponent(new Wizard());
-        this.opponents.add(new Bard());
-        this.opponents.add(new Druid());
-        this.opponents.add(new Rogue());
-        this.opponents.add(new Ranger());
-        this.opponents.add(new Barbarian());
+        addOpponent(new Bard());
+        addOpponent(new Druid());
+        addOpponent(new Rogue());
+        addOpponent(new Ranger());
+        addOpponent(new Barbarian());
     }
 
     /**
@@ -45,7 +38,7 @@ public class GamePlay implements GamePlayInterface {
     public GamePlay(Character character, Character opponent) {
         this.player = character;
         this.opponents = new LinkedList<>();
-        this.opponents.add(opponent);
+        addOpponent(opponent);
     }
 
     /**
@@ -90,7 +83,6 @@ public class GamePlay implements GamePlayInterface {
     @Override
     public int dealDamage(Character character) {
         int damage;
-
         if (character.health > 0) {
             if (character.health < 10) {
                 // If the health of a character is less than 10 they deal double damage.
@@ -104,9 +96,7 @@ public class GamePlay implements GamePlayInterface {
             // only dealt when health > 0.
             damage = 0;
         }
-
         character.experience += damage;
-
         return damage;
     }
 
@@ -140,12 +130,9 @@ public class GamePlay implements GamePlayInterface {
             damage = ((double) character.protection - (double) blowDamage) / 2;
             // If the difference by half is 0.5 we floor it.
             finalDamage = -1 * (int) Math.floor(damage); 
-
             finalExperience = (character.protection - blowDamage);
-
         } else {
             finalDamage = (blowDamage - character.protection);
-
             // SER316 TASK 2 SPOTBUGS FIX
             experience = ((double) blowDamage - (double) character.protection) / 2;
             // If the difference by half is 0.5 we floor it.
@@ -153,12 +140,10 @@ public class GamePlay implements GamePlayInterface {
         }
         character.health -= finalDamage;
         character.experience += finalExperience;
-
         // Health cannot go below 0
         if (character.health < 0) {
             character.health = 0;
         }
-
         return finalDamage;
     }
 
@@ -177,17 +162,13 @@ public class GamePlay implements GamePlayInterface {
             if (character.experience == character.pointsPerLevel) {
                 character.experience += 5;
             }
-
             character.level++;
             character.pointsPerLevel *= 2; // need more points to level up next time
             character.health = 100; // level up resets health
-            
             // increase character stats by class levelUp amounts
             character.damage += character.levelUpDamage;
             character.speed += character.levelUpSpeed;
             character.protection += character.levelUpProtection;
-            
-
             levelUp(character);
             test = true;
         }
@@ -225,9 +206,7 @@ public class GamePlay implements GamePlayInterface {
     @Override
     public void attack(Character character, Character opponent) {
         int damage;
-
         if (character.health > 0 && opponent.health > 0) {
-
             // character attacks
             damage = dealDamage(character);
             takeDamage(opponent, damage);
@@ -237,7 +216,6 @@ public class GamePlay implements GamePlayInterface {
             } else {
                 levelUp(character);
             }
-
             // opponent attacks
             if (character.health > 0 && opponent.health > 0) {
                 damage = dealDamage(opponent);
@@ -288,12 +266,9 @@ public class GamePlay implements GamePlayInterface {
                 orderOfAttack[1] = player; 
                 opponent.experience += Math.ceil(opponent.speed - player.speed);
             }
-
             // attack in order
             attack(orderOfAttack[0], orderOfAttack[1]);
-
         }
-
         // remove opponents that have <= 0 health
         for (int o = 0; o < opponents.size(); o++) {
             if (opponents.get(o).health <= 0) {
@@ -302,8 +277,6 @@ public class GamePlay implements GamePlayInterface {
                 o--;
             }
         }
-
         return player.experience - startingExperience;
     }
-
 }
