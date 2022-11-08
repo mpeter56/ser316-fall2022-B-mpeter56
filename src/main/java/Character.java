@@ -6,6 +6,9 @@ public class Character {
     int damage=0;
     double speed=0.0;
     int pointsPerLevel=100;
+    int levelUpDamage = 0;
+    double levelUpSpeed = 0;
+    int levelUpProtection = 0;
 
     public void printInfo() {
         System.out.println("Class: " + this.getClass().toString());
