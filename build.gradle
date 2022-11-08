@@ -1,6 +1,11 @@
 plugins {
+<<<<<<< HEAD
     id "com.github.spotbugs" version "5.0.12"
     id "checkstyle"
+=======
+     id "com.github.spotbugs" version "5.0.12"
+     id "checkstyle"
+>>>>>>> StaticAnalysis
 	id 'jacoco'
 }
 
@@ -21,9 +26,16 @@ dependencies {
     implementation files('cls/')
 }
 
+
 jacoco {
     toolVersion = "0.8.8"
     reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+
+test {
+	exclude '**/BlackBoxGiven.class'
+
 }
 
 ///////////////////////////////////////////////////////////////////////
