@@ -1,5 +1,8 @@
 public class Bard extends Character {
 
+    /**
+     * the constructor for the bard class.
+     */
     public Bard() {
         protection = 3;
         damage = 6;

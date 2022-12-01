@@ -1,5 +1,8 @@
 public class Barbarian extends Character {
 
+    /**
+     * the constructor for the barbarian class.
+     */
     public Barbarian() {
         protection = 10;
         damage = 10;

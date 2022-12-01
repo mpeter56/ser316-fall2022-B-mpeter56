@@ -1,5 +1,8 @@
 public class Druid extends Character {
 
+    /**
+     * the constructor for the druid class.
+     */
     public Druid() {
         protection = 4;
         damage = 7;

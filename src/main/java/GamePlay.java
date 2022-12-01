@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GamePlay implements GamePlayInterface {
 
@@ -132,11 +133,20 @@ public class GamePlay implements GamePlayInterface {
         }
         character.health -= finalDamage;
         giveExperience(character, finalExperience);
+        healthZero(character);
+        return finalDamage;
+    }
+    
+    /**
+     * if health is below 0, health will be set to 0.
+     * 
+     * <p>@param character
+     */
+    private void healthZero(Character character) {
         // Health cannot go below 0
         if (character.health < 0) {
             character.health = 0;
         }
-        return finalDamage;
     }
 
     /**
@@ -163,7 +173,7 @@ public class GamePlay implements GamePlayInterface {
     private boolean canLevelUp(Character character) {
         boolean result = false;
         if (character.experience >= character.pointsPerLevel) {
-            if(character.health > 0) {
+            if (character.health > 0) {
                 result = true;
             }
         }
@@ -219,8 +229,8 @@ public class GamePlay implements GamePlayInterface {
      * 
      * 
      *
-     * <p>@param character that is attacking
-     * @param opponent  that is being attacked
+     * <p>@param first that is attacking first
+     * @param second that is attacking second
      */
     @Override
     public void attack(Character first, Character second) {
@@ -231,14 +241,14 @@ public class GamePlay implements GamePlayInterface {
     /**
      * This method facilitates an attack if both attacker and defender have health above 0.
      * 
-     * <p>@param attacker
-     * @param defender
+     * <p>@param attacker the character attacking
+     * @param defender the character defending
      */
     private void singleAttack(Character attacker, Character defender) {
         int damage;
         if (attacker.health > 0 && defender.health > 0) {
             damage = dealDamage(attacker);
-            takeDamage(character, damage);
+            takeDamage(defender, damage);
             levelUp(attacker);
             levelUp(defender);
         }
@@ -246,22 +256,26 @@ public class GamePlay implements GamePlayInterface {
 
     /**
      * This method returns the amount of experience points earned by the player
-     * during one round of attacks. White box test me in assignment 3 (not in 2) !
-     * What this method does: - The player will attack each opponent once, and each
-     * opponent will attack the player once. - The player will just iterate through
-     * the list of opponents in the order they are in - The attack from an opponent
-     * and the attack on the same opponent happen right after one another. The order
-     * in which the attacks happen are based on the speed of the opponent and
-     * player. The faster of the two attacks first, then the slower. If equal the
-     * player attacks first. The character that attacks first is awarded the
-     * difference of the two speeds rounded up to the next integer in experience
-     * points. Your player then moves onto the next opponent. - The attack and
-     * levelUp are in separate methods (for whitebox testing in assignment 3 you can
-     * assume that these methods work correctly and it just shows up as "node" in
-     * your graph)
+     * during one round of attacks. White box test me in assignment 3 (not in 2)!
+     * 
+     * <p>What this method does: 
+     * 
+     * <p>The player will attack each opponent once, and each
+     * opponent will attack the player once.
+     * 
+     * <p>The player will just iterate through
+     * the list of opponents in the order they are in
+     * 
+     * <p>The attack from an opponent and the attack on the same opponent happen right after one 
+     * another. The order in which the attacks happen are based on the speed of the opponent and
+     * player. The faster of the two attacks first, then the slower. If equal the player attacks 
+     * first. The character that attacks first is awarded the difference of the two speeds rounded 
+     * up to the next integer in experience points. Your player then moves onto the next opponent.
+     * 
+     * <p>The attack and levelUp are in separate methods (for whitebox testing in assignment 3 you 
+     * can assume that these methods work correctly and it just shows up as "node" in your graph)
      *
-     * <p>@return the amount of experience points that the play acquired during play as
-     *         int
+     * <p>@return the amount of experience points that the play acquired during play as an int
      */
     @Override
     public int play() {
@@ -270,11 +284,11 @@ public class GamePlay implements GamePlayInterface {
             // determine order of attack and give experience points for attacking first
             //changed > to >= "If equal the player attacks first."
             if (player.speed >= opponent.speed) {  
-                giveExperience(player, Math.ceil(player.speed - opponent.speed));
+                giveExperience(player, (int) Math.ceil(player.speed - opponent.speed));
                 attack(player, opponent);
             } else {
-                giveExperience(opponent, Math.ceil(opponent.speed - player.speed));
-                attack(opponent, player)
+                giveExperience(opponent, (int) Math.ceil(opponent.speed - player.speed));
+                attack(opponent, player);
             }
         }
         // remove opponents that have <= 0 health

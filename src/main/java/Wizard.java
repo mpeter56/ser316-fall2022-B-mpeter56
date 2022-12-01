@@ -1,5 +1,8 @@
 public class Wizard extends Character {
 
+    /**
+     * the constructor for the wizard class.
+     */
     public Wizard() {
         protection = 1;
         damage = 5;

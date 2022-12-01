@@ -10,6 +10,9 @@ public class Character {
     double levelUpSpeed = 0;
     int levelUpProtection = 0;
 
+    /**
+     * prints the character info.
+     */
     public void printInfo() {
         System.out.println("Class: " + this.getClass().toString());
         System.out.println("Level: " + level);
