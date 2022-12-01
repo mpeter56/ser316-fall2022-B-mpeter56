@@ -16,7 +16,7 @@ public class GamePlay implements GamePlayInterface {
     /**
      * Parameterized constructor for Game Play.
      * 
-     * @param character type for player to use
+     * <p>@param character type for player to use
      */
     public GamePlay(Character character) {
         this.player = character;
@@ -32,7 +32,7 @@ public class GamePlay implements GamePlayInterface {
     /**
      * Parameterized constructor for Game Play. Allows choice of opponent.
      *
-     * @param character type for player to use
+     * <p>@param character type for player to use
      * @param opponent  type for opponent
      */
     public GamePlay(Character character, Character opponent) {
@@ -44,31 +44,23 @@ public class GamePlay implements GamePlayInterface {
     /**
      * Utility method to add an opponent to the list of opponents.
      *
-     * @param opponent to add
+     * <p>@param opponent to add
      * @return true if successful, false otherwise
      */
     @Override
     public boolean addOpponent(Character opponent) {
-        if (this.opponents.add(opponent)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.opponents.add(opponent));
     }
 
     /**
      * Utility method to remove an opponent from the list of opponents.
      *
-     * @param opponent to remove
+     * <p>@param opponent to remove
      * @return true if successful, false otherwise
      */
     @Override
     public boolean removeOpponent(Character opponent) {
-        if (this.opponents.remove(opponent)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.opponents.remove(opponent));
     }
 
     /**
@@ -77,12 +69,12 @@ public class GamePlay implements GamePlayInterface {
      * character still has more than 0 health, damage is also only dealt when health
      * > 0. If the health of a character is less than 10 they deal double damage.
      *
-     * @param character that is dealing damage
+     * <p>@param character that is dealing damage
      * @return damage stat of character as int
      */
     @Override
     public int dealDamage(Character character) {
-        int damage;
+        int damage = 0;
         if (character.health > 0) {
             if (character.health < 10) {
                 // If the health of a character is less than 10 they deal double damage.
@@ -96,7 +88,7 @@ public class GamePlay implements GamePlayInterface {
             // only dealt when health > 0.
             damage = 0;
         }
-        character.experience += damage;
+        giveExperience(character, damage);
         return damage;
     }
 
@@ -106,16 +98,16 @@ public class GamePlay implements GamePlayInterface {
      * higher than the blowDamage then the character will heal by half of that
      * difference they will also gain the full difference as experience
      * 
-     * If their protection is lower or equal than the blowDamage then the character
+     * <p>If their protection is lower or equal than the blowDamage then the character
      * will take half the difference as experience and the health will be reduced by
      * the full difference.
      * 
      * 
-     * If the difference by half is 0.5 we floor it.
+     * <p>If the difference by half is 0.5 we floor it.
      * 
-     * Health cannot go below 0
+     * <p>Health cannot go below 0
      * 
-     * @param character  that is being attacked
+     * <p>@param character  that is being attacked
      * @param blowDamage full force of attack without protection factored in
      * @return amount of damage actually taken by the character as int
      */
@@ -139,7 +131,7 @@ public class GamePlay implements GamePlayInterface {
             finalExperience = (int) Math.floor(experience); 
         }
         character.health -= finalDamage;
-        character.experience += finalExperience;
+        giveExperience(character, finalExperience);
         // Health cannot go below 0
         if (character.health < 0) {
             character.health = 0;
@@ -152,81 +144,103 @@ public class GamePlay implements GamePlayInterface {
      * so. You can assume that the new stats are what we want, so they are not
      * wrong. So this method is not wrong, it is the way we want it!
      * 
-     * @param character to be leveled up
+     * <p>@param character to be leveled up
      * @return boolean true if character leveld up, false if they did not
      */
     @Override
     public boolean levelUp(Character character) {
-        boolean test = false;
-        if (character.experience >= character.pointsPerLevel) {
+        if (canLevelUp(character)) {
             if (character.experience == character.pointsPerLevel) {
-                character.experience += 5;
+                giveExperience(character, 5);
             }
-            character.level++;
-            character.pointsPerLevel *= 2; // need more points to level up next time
-            character.health = 100; // level up resets health
-            // increase character stats by class levelUp amounts
-            character.damage += character.levelUpDamage;
-            character.speed += character.levelUpSpeed;
-            character.protection += character.levelUpProtection;
+            applyLevelUp(character);
             levelUp(character);
-            test = true;
+            return true;
         }
-        return test;
+        return false;
+    }
+    
+    private boolean canLevelUp(Character character) {
+        boolean result = false;
+        if (character.experience >= character.pointsPerLevel) {
+            if(character.health > 0) {
+                result = true;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * This method applys the changes for leveling up.
+     * 
+     * <p>@param character the character to level up.
+     */
+    private void applyLevelUp(Character character) {
+        character.level++;
+        character.pointsPerLevel *= 2; // need more points to level up next time
+        character.health = 100; // level up resets health
+        // increase character stats by class levelUp amounts
+        character.damage += character.levelUpDamage;
+        character.speed += character.levelUpSpeed;
+        character.protection += character.levelUpProtection;
+    }
+    
+    /**
+     * give character experience.
+     * 
+     * <p>@param character
+     */
+    private void giveExperience(Character character, int xp) {
+        character.experience += xp;
     }
 
     /**
      * Function that facilitates the attacker dealing damage to their opponent and
      * then the opposite.
      * 
-     * A character can only attack if both still have health greater than 0, this
+     * <p>A character can only attack if both still have health greater than 0, this
      * needs to be true for both attacks happening here
      * 
-     * You do NOT have the implemented methods for this but just 5 implemented
+     * <p>You do NOT have the implemented methods for this but just 5 implemented
      * versions in the .class files in the cls directory. So you need to Blackbox
      * test this method based on the description you get here. As you see the method
      * returns void, so no return type. You need to come up with a way to still test
      * if this method does what it is supposed to do. It is up to you to figure that
      * out.
      * 
-     * This method uses dealDamage and takeDamage from above, which you should
+     * <p>This method uses dealDamage and takeDamage from above, which you should
      * BlackBox test first.
      * 
-     * An attack only happens if health>0 for both characters The first character
+     * <p>An attack only happens if health>0 for both characters The first character
      * attacks first, by using dealsDamage and the opponent takesDamage. Then the
      * characters level up (call levelUp on both) -- if health > 0
      * 
-     * Then the other character attacks, same procedure as above
+     * <p>Then the other character attacks, same procedure as above
      * 
      * 
      *
-     * @param character that is attacking
+     * <p>@param character that is attacking
      * @param opponent  that is being attacked
      */
     @Override
-    public void attack(Character character, Character opponent) {
+    public void attack(Character first, Character second) {
+        singleAttack(first, second);
+        singleAttack(second, first);
+    }
+        
+    /**
+     * This method facilitates an attack if both attacker and defender have health above 0.
+     * 
+     * <p>@param attacker
+     * @param defender
+     */
+    private void singleAttack(Character attacker, Character defender) {
         int damage;
-        if (character.health > 0 && opponent.health > 0) {
-            // character attacks
-            damage = dealDamage(character);
-            takeDamage(opponent, damage);
-            if (opponent.health > 0) {
-                levelUp(opponent);
-                levelUp(character);
-            } else {
-                levelUp(character);
-            }
-            // opponent attacks
-            if (character.health > 0 && opponent.health > 0) {
-                damage = dealDamage(opponent);
-                takeDamage(character, damage);
-                if (character.health > 0) {
-                    levelUp(character);
-                    levelUp(opponent);
-                } else {
-                    levelUp(opponent);
-                }
-            }
+        if (attacker.health > 0 && defender.health > 0) {
+            damage = dealDamage(attacker);
+            takeDamage(character, damage);
+            levelUp(attacker);
+            levelUp(defender);
         }
     }
 
@@ -246,7 +260,7 @@ public class GamePlay implements GamePlayInterface {
      * assume that these methods work correctly and it just shows up as "node" in
      * your graph)
      *
-     * @return the amount of experience points that the play acquired during play as
+     * <p>@return the amount of experience points that the play acquired during play as
      *         int
      */
     @Override
@@ -254,20 +268,14 @@ public class GamePlay implements GamePlayInterface {
         int startingExperience = player.experience;
         for (Character opponent : opponents) {
             // determine order of attack and give experience points for attacking first
-            Character[] orderOfAttack = new Character[2];
             //changed > to >= "If equal the player attacks first."
             if (player.speed >= opponent.speed) {  
-                orderOfAttack[0] = player;
-                orderOfAttack[1] = opponent;
-                player.experience += Math.ceil(player.speed - opponent.speed);
+                giveExperience(player, Math.ceil(player.speed - opponent.speed));
+                attack(player, opponent);
             } else {
-                orderOfAttack[0] = opponent; // changed [1] to [0]
-                // changed [0] to [1] if an opponents speed is higher it should go first
-                orderOfAttack[1] = player; 
-                opponent.experience += Math.ceil(opponent.speed - player.speed);
+                giveExperience(opponent, Math.ceil(opponent.speed - player.speed));
+                attack(opponent, player)
             }
-            // attack in order
-            attack(orderOfAttack[0], orderOfAttack[1]);
         }
         // remove opponents that have <= 0 health
         for (int o = 0; o < opponents.size(); o++) {
