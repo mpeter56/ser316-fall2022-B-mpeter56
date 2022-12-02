@@ -33,6 +33,22 @@
     </properties>
 </rule>
 <rule ref="category/java/bestpractices.xml/LooseCoupling" />
+<rule ref="category/java/design.xml/CouplingBetweenObjects">
+    <properties>
+        <property name="threshold" value="20" />
+    </properties>
+</rule>
 
+<rule ref="category/java/design.xml/DataClass" />
+
+<rule ref="category/java/design.xml/ExcessivePublicCount">
+    <properties>
+        <property name="minimum" value="45.0" />
+    </properties>
+</rule>
+
+<rule ref="category/java/design.xml/GodClass" />
+
+<rule ref="category/java/design.xml/LawOfDemeter" />
 
 </ruleset>
